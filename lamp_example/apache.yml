@@ -1,0 +1,13 @@
+---
+- hosts: apache
+  become: true
+  tasks:
+  - name: install packages
+    apt:
+      name: "{{ item }}"
+      update_cache: yes
+      state: present
+    with_items:
+      - apache2
+      - apache2-utils
+
