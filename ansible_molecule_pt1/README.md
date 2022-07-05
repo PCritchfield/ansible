@@ -1,2 +1,3 @@
-## Role used for Blog Post Testing Ansible Automation with Molecule Pt. 1
-[Add blog link when available](link)
+## Sample role used for Blog Post Testing Ansible Automation with Molecule Pt. 1
+
+[Testing Ansible Automation with Molecule Pt.1](https://medium.com/p/66ab3ea7a58a)
