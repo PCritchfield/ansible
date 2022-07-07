@@ -1,0 +1,20 @@
+---
+# tasks file for laravel_role
+- name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: install nginx
+  apt:
+    name: "{{ item.name }}={{item.version}}"
+    state: present
+  with_items:
+    - { name: 'nginx', version: '1.18.0-6ubuntu14.1' }
+    - { name: 'git', version: '1:2.34.1-1ubuntu1.2' }
+
+- name: Make sure a service unit is running
+  sysvinit:
+    state: started
+    name: nginx
+    enabled: true

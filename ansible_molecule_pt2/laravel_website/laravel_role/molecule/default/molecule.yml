@@ -20,8 +20,13 @@ driver:
   name: docker
 platforms:
   - name: instance
-    image: quay.io/centos/centos:stream8
+    image: "geerlingguy/docker-ubuntu2204-ansible:latest"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
     pre_build_image: true
+    published_ports:
+      - 0.0.0.0:8080:80/tcp
 provisioner:
   name: ansible
 verifier:
