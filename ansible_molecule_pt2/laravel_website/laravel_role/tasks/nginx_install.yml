@@ -7,14 +7,21 @@
 
 - name: install nginx
   apt:
-    name: "{{ item.name }}={{item.version}}"
+    name: "{{ item }}"
     state: present
   with_items:
-    - { name: 'nginx', version: '1.18.0-6ubuntu14.1' }
-    - { name: 'git', version: '1:2.34.1-1ubuntu1.2' }
+    - nginx
+    - git
+    - vim
 
 - name: Make sure a service unit is running
   sysvinit:
     state: started
     name: nginx
     enabled: true
+
+- name: copy over config
+  copy:
+    src: laravel.conf
+    dest: /etc/nginx/sites-available/default
+    mode: u+rw,g-r,o-r

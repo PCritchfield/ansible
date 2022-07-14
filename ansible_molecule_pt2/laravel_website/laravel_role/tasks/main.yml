@@ -5,3 +5,5 @@
 - name: Install php
   include_tasks: php_install.yml
 
+- name: Deploy website
+  include_tasks: deploy_site.yml
