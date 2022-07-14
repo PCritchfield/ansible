@@ -3,7 +3,10 @@
 - name: restart php8.1-fpm
   sysvinit: 
     name: php8.1-fpm
-    state: restarted
+    state: "{{ item }}"
+  with_items:
+    - stopped
+    - started
 
 - name: restart nginx
   sysvinit:

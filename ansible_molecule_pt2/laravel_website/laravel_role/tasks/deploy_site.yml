@@ -11,7 +11,7 @@
   - name: Clone git repository
     git:
       dest: /var/www/laravel
-      repo: https://github.com/savanihd/Laravel-9-CRUD.git
+      repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
       update: no
     register: repo 
 
@@ -25,30 +25,37 @@
       src: database.php
       dest: /var/www/laravel/config/database.php
       mode: u+rw,g-rw,o-r
+
+  # - name: composer install
+  #   community.general.composer:
+  #     command: update
+  #     working_dir: /var/www/laravel
+
+  # - name: composer install
+  #   community.general.composer:
+  #     command: install
+  #     working_dir: /var/www/laravel
+  - name: php migrate and seed
+    shell:
+      cmd: composer update
+      chdir: /var/www/laravel
+
+  - name: php migrate and seed
+    shell:
+      cmd: composer install
+      chdir: /var/www/laravel
+
+  - name: php migrate and seed
+    shell:
+      cmd: php artisan {{ item }}
+      chdir: /var/www/laravel
+    with_items:
+      - migrate --seed --force
+      - config:clear
+      - key:generate --force
+    # when: repo.changed
   become: true
   become_user: www-data
-
-- block:
-  - name: composer install
-    community.general.composer:
-      command: install
-      working_dir: /var/www/laravel
- 
-  - name: php migrate and seed
-    shell:
-      cmd: php artisan migrate --seed --force
-      chdir: /var/www/laravel
-
-  - name: clear the config
-    shell:
-      cmd: php artisan config:clear
-      chdir: /var/www/laravel
-
-  - name: php migrate and seed
-    shell:
-      cmd: php artisan key:generate --force
-      chdir: /var/www/laravel
-  when: repo.changed
   notify:
-    - restart php8.1-fpm
-    - restart nginx
+      - restart php8.1-fpm
+      - restart nginx
