@@ -26,34 +26,25 @@
       dest: /var/www/laravel/config/database.php
       mode: u+rw,g-rw,o-r
 
-  # - name: composer install
-  #   community.general.composer:
-  #     command: update
-  #     working_dir: /var/www/laravel
-
-  # - name: composer install
-  #   community.general.composer:
-  #     command: install
-  #     working_dir: /var/www/laravel
-  - name: php migrate and seed
+  - name: Composer update
     shell:
       cmd: composer update
       chdir: /var/www/laravel
 
-  - name: php migrate and seed
+  - name: php install
     shell:
       cmd: composer install
       chdir: /var/www/laravel
 
-  - name: php migrate and seed
+  - name: php artisan steps
     shell:
       cmd: php artisan {{ item }}
       chdir: /var/www/laravel
     with_items:
       - migrate --seed --force
+      - storage:link
       - config:clear
       - key:generate --force
-    # when: repo.changed
   become: true
   become_user: www-data
   notify:
