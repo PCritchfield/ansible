@@ -1,5 +1,4 @@
 ---
-# tasks file for laravel_role
 - name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
   ansible.builtin.apt:
     update_cache: yes
@@ -10,9 +9,8 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - nginx
+    - nginx='1.18*'
     - git
-    - vim
 
 - name: Make sure a service unit is running
   sysvinit:
