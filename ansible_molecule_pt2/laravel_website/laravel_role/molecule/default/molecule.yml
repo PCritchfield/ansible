@@ -1,19 +1,14 @@
 ---
-# scenario:
-#   test_sequence:
-#     - dependency
-#     - lint
-#     - cleanup
-#     - destroy
-#     - syntax
-#     - create
-#     - prepare
-#     - converge
-#     - idempotence
-#     - side_effect
-#     - verify
-#     - cleanup
-#     - destroy
+scenario:
+  test_sequence:
+    - dependency
+    # - lint
+    - destroy
+    - create
+    - converge
+    # - idempotence
+    - verify
+    - destroy
 dependency:
   name: galaxy
   options:
@@ -56,6 +51,8 @@ provisioner:
     DB_PASSWORD: moleculepass
 verifier:
   name: testinfra
+  # options:
+  #   s: true
 lint: |
   set -e
   yamllint .
