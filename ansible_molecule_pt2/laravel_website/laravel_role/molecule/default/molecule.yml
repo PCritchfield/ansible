@@ -1,21 +1,25 @@
 ---
 scenario:
   test_sequence:
-    - dependency
-    # - lint
-    - destroy
-    - create
-    - converge
-    # - idempotence
-    - verify
-    - destroy
+  - dependency
+  - lint
+  - cleanup
+  - destroy
+  - syntax
+  - create
+  - prepare
+  - converge
+  - idempotence
+  - side_effect
+  - verify
+  - cleanup
+  - destroy
 dependency:
   name: galaxy
   options:
     ignore-certs: True
     ignore-errors: True
     role-file: molecule/requirements.yml
-    # requirements-file: molecule/requirements.yml
 driver:
   name: docker
 platforms:
