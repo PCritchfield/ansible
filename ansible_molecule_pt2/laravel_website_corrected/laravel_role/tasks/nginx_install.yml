@@ -1,0 +1,25 @@
+---
+- name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: install nginx
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nginx='1.18*'
+    - git
+
+- name: Make sure a service unit is running
+  sysvinit:
+    state: started
+    name: nginx
+    enabled: true
+
+- name: copy over config
+  copy:
+    src: laravel.conf
+    dest: /etc/nginx/sites-available/default
+    mode: u+rw,g-r,o-r

@@ -1,6 +1,22 @@
 ---
-- name: Converge
-  hosts: all
+- name: Converge - DB
+  hosts: mysql
+  vars:
+    mysql_databases:
+      - name: "{{ lookup('env','DB_DATABASE') }}"
+    mysql_users:
+      - name: "{{ lookup('env','DB_USERNAME') }}"
+        password: "{{ lookup('env','DB_PASSWORD') }}"
+        host: site.laravel
+        priv: "*.*:ALL"
+  tasks:
+    - name: "Setup MySQL DB"
+      include_role:
+        name: "geerlingguy.mysql"
+  tags: molecule-idempotence-notest
+
+- name: Converge - Site
+  hosts: site
   tasks:
     - name: "Include laravel_role"
       include_role:
