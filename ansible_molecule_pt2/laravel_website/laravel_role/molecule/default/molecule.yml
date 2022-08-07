@@ -1,16 +1,14 @@
 ---
 scenario:
   test_sequence:
-  - dependency
+  # - dependency
   - lint
   - cleanup
   - destroy
-  - syntax
   - create
   - prepare
   - converge
   - idempotence
-  - side_effect
   - verify
   - cleanup
   - destroy
@@ -34,8 +32,7 @@ platforms:
     networks:
       - name: "laravel"
   - name: mysql
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    image: "geerlingguy/docker-ubuntu2204-ansible:latest"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
@@ -53,6 +50,8 @@ provisioner:
     DB_DATABASE: blog
     DB_USERNAME: molecule
     DB_PASSWORD: moleculepass
+    APP_ENV: local
+    APP_DEBUG: true
 verifier:
   name: testinfra
   # options:
