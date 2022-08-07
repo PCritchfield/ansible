@@ -1,7 +1,0 @@
----
-- name: Converge
-  hosts: all
-  tasks:
-    - name: "Include laravel_role"
-      include_role:
-        name: "laravel_role"
