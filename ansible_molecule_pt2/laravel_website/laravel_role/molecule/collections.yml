@@ -1,2 +1,2 @@
-roles:
-  - name: geerlingguy.mysql
+collections:
+  - name: community.mysql
