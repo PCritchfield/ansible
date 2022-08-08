@@ -41,7 +41,7 @@
       cmd: php artisan {{ item }}
       chdir: /var/www/laravel
     with_items:
-      - migrate --seed --force
+      # - migrate --seed --force
       - storage:link
       - config:clear
       - key:generate --force
