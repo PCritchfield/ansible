@@ -7,14 +7,17 @@
     group: www-data
     mode: 0700
 
-- block:
-  - name: Clone git repository
-    git:
-      dest: /var/www/laravel
-      repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
-      update: no
-    register: repo 
+- name: Clone git repository
+  git:
+    dest: /var/www/laravel
+    repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
+    update: no
+  register: repo
+  become: true
+  become_user: www-data
 
+- name: Configure the site then migrate and seed the database
+  block:
   - name: set .env file
     template:
       src: env.j2
@@ -41,7 +44,7 @@
       cmd: php artisan {{ item }}
       chdir: /var/www/laravel
     with_items:
-      # - migrate --seed --force
+      - migrate --seed --force
       - storage:link
       - config:clear
       - key:generate --force
@@ -50,3 +53,4 @@
   notify:
       - restart php8.1-fpm
       - restart nginx
+  when: repo is changed

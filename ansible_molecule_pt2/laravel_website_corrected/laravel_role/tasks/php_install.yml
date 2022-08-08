@@ -12,6 +12,7 @@
   command: "{{ composer_path }}"
   ignore_errors: true
   register: composer_installed
+  changed_when: false
 
 - name: Install Composer if its not already installed
   block:
