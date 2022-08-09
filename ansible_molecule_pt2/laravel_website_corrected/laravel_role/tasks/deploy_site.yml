@@ -1,6 +1,6 @@
 ---
 - name: create /var/www/ directory
-  file: 
+  ansible.builtin.file:
     dest: /var/www/
     state: directory
     owner: www-data
@@ -8,7 +8,7 @@
     mode: 0700
 
 - name: Clone git repository
-  git:
+  ansible.builtin.git:
     dest: /var/www/laravel
     repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
     update: no
@@ -19,28 +19,28 @@
 - name: Configure the site then migrate and seed the database
   block:
   - name: set .env file
-    template:
+    ansible.builtin.template:
       src: env.j2
       dest: /var/www/laravel/.env
 
   - name: set database.php conf file
-    copy:
+    ansible.builtin.copy:
       src: database.php
       dest: /var/www/laravel/config/database.php
       mode: u+rw,g-rw,o-r
 
   - name: Composer update
-    shell:
+    ansible.builtin.shell:
       cmd: composer update
       chdir: /var/www/laravel
 
   - name: composer install
-    shell:
+    ansible.builtin.shell:
       cmd: composer install
       chdir: /var/www/laravel
 
   - name: php artisan steps
-    shell:
+    ansible.builtin.shell:
       cmd: php artisan {{ item }}
       chdir: /var/www/laravel
     with_items:

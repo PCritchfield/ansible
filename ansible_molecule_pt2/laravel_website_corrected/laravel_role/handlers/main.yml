@@ -1,7 +1,7 @@
 ---
 # handlers file for laravel_role
 - name: restart php8.1-fpm
-  sysvinit: 
+  ansible.builtin.sysvinit: 
     name: php8.1-fpm
     state: "{{ item }}"
   with_items:
@@ -9,6 +9,6 @@
     - started
 
 - name: restart nginx
-  sysvinit:
+  ansible.builtin.sysvinit:
     name: nginx
     state: restarted

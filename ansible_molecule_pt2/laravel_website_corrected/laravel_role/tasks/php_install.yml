@@ -4,12 +4,12 @@
     cache_valid_time: 3600
 
 - name: install php and related packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ php_pkgs }}"
     state: present
 
 - name: Checks if Composer is already installed
-  command: "{{ composer_path }}"
+  ansible.builtin.command: "{{ composer_path }}"
   ignore_errors: true
   register: composer_installed
   changed_when: false
@@ -18,31 +18,30 @@
   block:
 
     - name: Download Composer Installation Script (if not already installed)
-      get_url:
+      ansible.builtin.get_url:
         url: https://getcomposer.org/installer
         dest: /tmp/composer-setup.php
 
     - name: Run Composer Installer (if not already installed)
-      command:
+      ansible.builtin.command:
         cmd: /usr/bin/php /tmp/composer-setup.php
         creates: composer.phar
 
     - name: Copy Composer Executable to /usr/local/bin
       become: true
-      copy:
+      ansible.builtin.copy:
         src: composer.phar
         dest: /usr/local/bin/composer
         remote_src: yes
         mode: '0755'
 
     - name: Remove phar
-      file:
+      ansible.builtin.file:
         path: composer.phar
         state: absent
 
     - name: Remove Install Script
-      file:
+      ansible.builtin.file:
         path: /tmp/composer-setup.php
         state: absent
-
   when: composer_installed is failed

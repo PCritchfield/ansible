@@ -11,7 +11,7 @@
         priv: "*.*:ALL"
   tasks:
     - name: "Setup MySQL DB"
-      include_role:
+      ansible.builtin.include_role:
         name: "geerlingguy.mysql"
   tags: molecule-idempotence-notest
 
@@ -19,5 +19,5 @@
   hosts: site
   tasks:
     - name: "Include laravel_role"
-      include_role:
+      ansible.builtin.include_role:
         name: "laravel_role"
