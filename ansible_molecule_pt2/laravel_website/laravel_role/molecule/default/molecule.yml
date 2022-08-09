@@ -1,17 +1,4 @@
 ---
-scenario:
-  test_sequence:
-  # - dependency
-  - lint
-  - cleanup
-  - destroy
-  - create
-  - prepare
-  - converge
-  - idempotence
-  - verify
-  - cleanup
-  - destroy
 dependency:
   name: galaxy
   options:
@@ -55,10 +42,3 @@ provisioner:
     APP_DEBUG: true
 verifier:
   name: testinfra
-  # options:
-  #   s: true
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8

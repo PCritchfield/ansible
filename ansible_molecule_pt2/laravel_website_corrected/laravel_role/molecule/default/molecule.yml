@@ -54,8 +54,6 @@ provisioner:
     APP_DEBUG: true
 verifier:
   name: testinfra
-  # options:
-  #   s: true
 lint: |
   set -e
   yamllint .
