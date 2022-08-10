@@ -1,2 +1,3 @@
 skip_list:  # or 'skip_list' to silence them completely
   - meta-incorrect  # meta/main.yml default values should be changed.
+  - no-changed-when

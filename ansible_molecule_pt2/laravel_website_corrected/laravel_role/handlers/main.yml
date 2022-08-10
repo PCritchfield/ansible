@@ -1,5 +1,41 @@
 ---
 # handlers file for laravel_role
+- name: configure site
+  block:
+  - name: set .env file
+    ansible.builtin.template:
+      src: env.j2
+      dest: /var/www/laravel/.env
+      mode: '0755'
+
+  - name: set database.php conf file
+    ansible.builtin.copy:
+      src: database.php
+      dest: /var/www/laravel/config/database.php
+      mode: u+rw,g-rw,o-r
+
+  - name: Composer update
+    ansible.builtin.command:
+      cmd: composer update
+      chdir: /var/www/laravel
+
+  - name: composer install
+    ansible.builtin.command:
+      cmd: composer install
+      chdir: /var/www/laravel
+
+  - name: php artisan steps
+    ansible.builtin.command:
+      cmd: php artisan {{ item }}
+      chdir: /var/www/laravel
+    with_items:
+      - migrate --seed --force
+      - storage:link
+      - config:clear
+      - key:generate --force
+  become: true
+  become_user: www-data
+
 - name: restart php8.1-fpm
   ansible.builtin.sysvinit: 
     name: php8.1-fpm

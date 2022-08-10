@@ -21,6 +21,7 @@
       ansible.builtin.get_url:
         url: https://getcomposer.org/installer
         dest: /tmp/composer-setup.php
+        mode: '0755'
 
     - name: Run Composer Installer (if not already installed)
       ansible.builtin.command:
