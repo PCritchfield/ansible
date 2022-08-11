@@ -20,7 +20,7 @@ platforms:
     networks:
       - name: "laravel"
   - name: mysql
-    image: "geerlingguy/docker-ubuntu2204-ansible:latest"
+    image: "geerlingguy/docker-${DB_DISTRO:-centos7}-ansible:latest"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
@@ -42,3 +42,7 @@ provisioner:
     APP_DEBUG: true
 verifier:
   name: testinfra
+lint: |
+  set -e
+  yamllint .
+  ansible-lint

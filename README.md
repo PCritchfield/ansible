@@ -16,13 +16,6 @@ python3 -m pip install -U setuptools
 python3 -m pip install ansible
 ```
 
-## Add Command Shell Completion with global configuration
-[argcomplete docs](https://kislyuk.github.io/argcomplete/)  
-```bash
-python3 -m pip install argcomplete
-activate-global-python-argcomplete
-```
-
 ## Install Molecule and Docker driver plugin
 [Molecule Docs]()
 ```bash
