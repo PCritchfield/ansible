@@ -13,7 +13,6 @@
     repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
     update: no
     version: main
-  register: repo
   become: true
   become_user: www-data
   notify:
