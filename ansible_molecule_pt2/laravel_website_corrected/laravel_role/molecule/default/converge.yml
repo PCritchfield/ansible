@@ -12,7 +12,7 @@
   tasks:
     - name: "Setup MySQL DB"
       ansible.builtin.include_role:
-        name: "geerlingguy.mysql"
+        name: "geerlingguy.mysql-fork"
   tags: molecule-idempotence-notest
 
 - name: Converge - Site

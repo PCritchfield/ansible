@@ -12,7 +12,7 @@
   tasks:
     - name: "Setup MySQL DB"
       include_role:
-        name: "geerlingguy.mysql"
+        name: "geerlingguy.mysql-fork"
 
 - name: Converge - Site
   hosts: site
