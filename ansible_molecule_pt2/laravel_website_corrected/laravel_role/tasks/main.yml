@@ -1,0 +1,9 @@
+---
+- name: Include Nginx install
+  include_tasks: nginx_install.yml
+
+- name: Install php
+  include_tasks: php_install.yml
+
+- name: Deploy website
+  include_tasks: deploy_site.yml

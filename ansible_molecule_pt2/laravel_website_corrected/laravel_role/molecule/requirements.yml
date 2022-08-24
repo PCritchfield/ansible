@@ -1,0 +1,4 @@
+---
+roles:
+  - name: geerlingguy.mysql-fork
+    src: https://github.com/PCritchfield/ansible-role-mysql.git

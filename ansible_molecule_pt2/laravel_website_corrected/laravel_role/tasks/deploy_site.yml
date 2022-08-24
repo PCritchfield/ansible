@@ -1,0 +1,21 @@
+---
+- name: create /var/www/ directory
+  ansible.builtin.file:
+    dest: /var/www/
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0700
+
+- name: Clone git repository
+  ansible.builtin.git:
+    dest: /var/www/laravel
+    repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
+    update: no
+    version: main
+  become: true
+  become_user: www-data
+  notify:
+    - configure site
+    - restart php8.1-fpm
+    - restart nginx

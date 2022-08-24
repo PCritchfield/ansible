@@ -1,0 +1,52 @@
+---
+- name: create /var/www/ directory
+  file: 
+    dest: /var/www/
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0700
+
+- block:
+  - name: Clone git repository
+    git:
+      dest: /var/www/laravel
+      repo: https://github.com/JeffreyWay/Laravel-From-Scratch-Blog-Project.git
+      update: no
+    register: repo 
+
+  - name: set .env file
+    template:
+      src: env.j2
+      dest: /var/www/laravel/.env
+
+  - name: set database.php conf file
+    copy:
+      src: database.php
+      dest: /var/www/laravel/config/database.php
+      mode: u+rw,g-rw,o-r
+
+  - name: Composer update
+    command:
+      cmd: composer update
+      chdir: /var/www/laravel
+
+  - name: composer install
+    command:
+      cmd: composer install
+      chdir: /var/www/laravel
+
+  - name: php artisan steps
+    command:
+      cmd: php artisan {{ item }}
+      chdir: /var/www/laravel
+    with_items:
+      - migrate --seed --force
+      - storage:link
+      - config:clear
+      - key:generate --force
+  become: true
+  become_user: www-data
+  notify:
+      - restart php8.1-fpm
+      - restart nginx

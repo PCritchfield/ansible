@@ -1,0 +1,17 @@
+---
+# handlers file for laravel_role
+- name: configure site
+  include_tasks: tasks/configure_site.yml
+
+- name: restart php8.1-fpm
+  ansible.builtin.sysvinit: 
+    name: php8.1-fpm
+    state: "{{ item }}"
+  with_items:
+    - stopped
+    - started
+
+- name: restart nginx
+  ansible.builtin.sysvinit:
+    name: nginx
+    state: restarted
